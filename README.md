@@ -1,4 +1,4 @@
-# Terraform
+# Terraform 
 ### Task: Basic EC2 Instance Creation with Terraform
 
 **Objective: In this assignment, you will create a basic Terraform configuration to provision an EC2 instance on AWS.**
