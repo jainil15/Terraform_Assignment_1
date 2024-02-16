@@ -7,12 +7,12 @@ terraform {
   }
 }
 
-#For assigning region
+# For assigning region
 provider "aws" {
   region = "ap-south-1"
 }
 
-#Accessing ifconfig.com for accessing my ip address
+# Accessing ifconfig.com for accessing my ip address
 data "http" "my_public_ip" {
   url = "https://ifconfig.co/json"
   request_headers = {
@@ -20,20 +20,20 @@ data "http" "my_public_ip" {
   }
 }
 
-#Creating public key from the private key which was created before
+# Creating public key from the private key which was created before
 data "tls_public_key" "mykeypair_public" {
   private_key_openssh = file("./mykeypair.pem")
 }
 
-#Local Variables
+# Local Variables
 locals {
-  server_name  = "Jainils_Server"
-  vpc_name     = "Jainils_VPC"
-  #Getting my_ip from the json data
+  server_name = "Jainils_Server"
+  vpc_name    = "Jainils_VPC"
+  # Getting my_ip from the json data
   my_public_ip = jsondecode(data.http.my_public_ip.response_body).ip
 }
 
-#Creating VPC
+# Creating VPC
 resource "aws_vpc" "app_vpc" {
   cidr_block       = "138.82.0.0/16"
   instance_tenancy = "default"
@@ -42,7 +42,7 @@ resource "aws_vpc" "app_vpc" {
   }
 }
 
-#Creating subnet
+# Creating subnet
 resource "aws_subnet" "public_subnet_ap_south_1a" {
   vpc_id            = aws_vpc.app_vpc.id
   availability_zone = "ap-south-1a"
@@ -53,7 +53,7 @@ resource "aws_subnet" "public_subnet_ap_south_1a" {
   }
 }
 
-#Creating internet gateway
+# Creating internet gateway
 resource "aws_internet_gateway" "app_igw" {
   vpc_id = aws_vpc.app_vpc.id
   tags = {
@@ -61,7 +61,7 @@ resource "aws_internet_gateway" "app_igw" {
   }
 }
 
-#Creating route table
+# Creating route table
 resource "aws_route_table" "public_route_table" {
   vpc_id = aws_vpc.app_vpc.id
   route {
@@ -73,19 +73,19 @@ resource "aws_route_table" "public_route_table" {
   }
 }
 
-#Associating subnet with route table
+# Associating subnet with route table
 resource "aws_route_table_association" "subnet_association_public_subnet_ap_south_1a" {
   subnet_id      = aws_subnet.public_subnet_ap_south_1a.id
   route_table_id = aws_route_table.public_route_table.id
 }
 
-#Creating key pair for ssh access
+# Creating key pair for ssh access
 resource "aws_key_pair" "mykeypair" {
   key_name   = "mykeypair"
   public_key = data.tls_public_key.mykeypair_public.public_key_openssh # Getting public key from private key
 }
 
-#Creating security group for http and ssh access and all outbound access
+# Creating security group for http and ssh access and all outbound access
 resource "aws_security_group" "allow_http_and_ssh" {
   name        = "allow_http_and_ssh"
   description = "This security groups allows http and ssh inbound traffic from all sources"
@@ -115,11 +115,11 @@ resource "aws_security_group" "allow_http_and_ssh" {
 
 # Creating aws ec2 instance with web server
 resource "aws_instance" "app_server" {
-  ami                    = "ami-06b72b3b2a773be2b"
-  key_name               = aws_key_pair.mykeypair.key_name
-  instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.public_subnet_ap_south_1a.id
-  vpc_security_group_ids = [aws_security_group.allow_http_and_ssh.id]
+  ami                         = "ami-06b72b3b2a773be2b"
+  key_name                    = aws_key_pair.mykeypair.key_name
+  instance_type               = "t2.micro"
+  subnet_id                   = aws_subnet.public_subnet_ap_south_1a.id
+  vpc_security_group_ids      = [aws_security_group.allow_http_and_ssh.id]
   associate_public_ip_address = true
   tags = {
     Name = "${local.server_name}"
