@@ -14,14 +14,14 @@ provider "aws" {
 
 # Accessing ifconfig.com for accessing my ip address
 data "http" "my_public_ip" {
-  url = "https://ifconfig.co/json"
+  url = "https://ipv4.icanhazip.com/json"
   request_headers = {
     Accept = "application/json"
   }
 }
 
 # Creating public key from the private key which was created before
-data "tls_public_key" "mykeypair_public" {
+data "tls_public_key" "mykeypair" {
   private_key_openssh = file("./mykeypair.pem")
 }
 
@@ -30,7 +30,7 @@ locals {
   server_name = "Jainils_Server"
   vpc_name    = "Jainils_VPC"
   # Getting my_ip from the json data
-  my_public_ip = jsondecode(data.http.my_public_ip.response_body).ip
+  my_public_ip = chomp(data.http.my_public_ip.response_body)
 }
 
 # Creating VPC
@@ -43,7 +43,7 @@ resource "aws_vpc" "app_vpc" {
 }
 
 # Creating subnet
-resource "aws_subnet" "public_subnet_ap_south_1a" {
+resource "aws_subnet" "public_ap_south_1a" {
   vpc_id            = aws_vpc.app_vpc.id
   availability_zone = "ap-south-1a"
   cidr_block        = "138.82.0.64/26"
@@ -62,7 +62,7 @@ resource "aws_internet_gateway" "app_igw" {
 }
 
 # Creating route table
-resource "aws_route_table" "public_route_table" {
+resource "aws_route_table" "public" {
   vpc_id = aws_vpc.app_vpc.id
   route {
     cidr_block = "0.0.0.0/0"
@@ -75,14 +75,14 @@ resource "aws_route_table" "public_route_table" {
 
 # Associating subnet with route table
 resource "aws_route_table_association" "subnet_association_public_subnet_ap_south_1a" {
-  subnet_id      = aws_subnet.public_subnet_ap_south_1a.id
-  route_table_id = aws_route_table.public_route_table.id
+  subnet_id      = aws_subnet.public_ap_south_1a.id
+  route_table_id = aws_route_table.public.id
 }
 
 # Creating key pair for ssh access
 resource "aws_key_pair" "mykeypair" {
   key_name   = "mykeypair"
-  public_key = data.tls_public_key.mykeypair_public.public_key_openssh # Getting public key from private key
+  public_key = data.tls_public_key.mykeypair.public_key_openssh # Getting public key from private key
 }
 
 # Creating security group for http and ssh access and all outbound access
@@ -118,7 +118,7 @@ resource "aws_instance" "app_server" {
   ami                         = "ami-06b72b3b2a773be2b"
   key_name                    = aws_key_pair.mykeypair.key_name
   instance_type               = "t2.micro"
-  subnet_id                   = aws_subnet.public_subnet_ap_south_1a.id
+  subnet_id                   = aws_subnet.public_ap_south_1a.id
   vpc_security_group_ids      = [aws_security_group.allow_http_and_ssh.id]
   associate_public_ip_address = true
   tags = {
