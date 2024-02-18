@@ -20,10 +20,6 @@ data "http" "my_public_ip" {
   }
 }
 
-# Creating public key from the private key which was created before
-data "tls_public_key" "mykeypair" {
-  private_key_openssh = file("./mykeypair.pem")
-}
 
 # Local Variables
 locals {
@@ -82,7 +78,7 @@ resource "aws_route_table_association" "subnet_association_public_subnet_ap_sout
 # Creating key pair for ssh access
 resource "aws_key_pair" "mykeypair" {
   key_name   = "mykeypair"
-  public_key = data.tls_public_key.mykeypair.public_key_openssh # Getting public key from private key
+  public_key = file("./mykeypair.pem.pub") # Getting public key
 }
 
 # Creating security group for http and ssh access and all outbound access
