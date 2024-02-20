@@ -17,7 +17,7 @@ terraform {
 }
 
 locals {
-  env = "test"
+  env = "ass-1-test"
 }
 
 # For assigning region

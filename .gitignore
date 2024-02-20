@@ -36,4 +36,6 @@ terraform.rc
 # Ignore Private and Public key
 *.pem
 *.pub
+
+# Ignore old files
 *.old
