@@ -12,11 +12,25 @@ provider "aws" {
   region = "ap-south-1"
 }
 
+# Accessing ifconfig.com for accessing my ip address
+data "http" "my_public_ip" {
+  url = "https://ipv4.icanhazip.com/json"
+  request_headers = {
+    Accept = "application/json"
+  }
+}
+
+# Creating public key from the private key which was created before
+data "tls_public_key" "mykeypair" {
+  private_key_openssh = file("./mykeypair.pem")
+}
+
 # Local Variables
 locals {
   server_name = "Jainils_Server"
   vpc_name    = "Jainils_VPC"
   # Getting my_ip from the json data
+  my_public_ip = chomp(data.http.my_public_ip.response_body)
 }
 
 # Creating VPC
@@ -68,7 +82,7 @@ resource "aws_route_table_association" "subnet_association_public_subnet_ap_sout
 # Creating key pair for ssh access
 resource "aws_key_pair" "mykeypair" {
   key_name   = "mykeypair"
-  public_key = file("./mykeypair.pem.pub")
+  public_key = data.tls_public_key.mykeypair.public_key_openssh # Getting public key from private key
 }
 
 # Creating security group for http and ssh access and all outbound access
@@ -85,7 +99,7 @@ resource "aws_security_group" "allow_http_and_ssh" {
     to_port          = 80
   }
   ingress {
-    cidr_blocks = ["110.2.33.21/32"] # Only MY IP Access
+    cidr_blocks = ["${local.my_public_ip}/32"] # Only MY IP Access
     protocol    = "tcp"
     from_port   = 22
     to_port     = 22
@@ -124,4 +138,8 @@ systemctl restart httpd
 # OUTPUTS:
 output "instance_ip_address" {
   value = aws_instance.app_server.public_ip
+}
+
+output "my_ip" {
+  value = local.my_public_ip
 }
