@@ -16,7 +16,7 @@
 ## Backend:
 
 **Steps to set up backend:**
-   1. Now create s3 bucket (jainil-terraform-assignment-2-backend) and enable versioning.
+   1. Create create s3 bucket (jainil-terraform-assignment-2-backend) and enable versioning.
    2. Create DynamoDB Table (jainil-terraform-lock-table) with partition key named LockID and type String.
    3. Create 2 Policies (Dynamo_w_r_t and S3_w_r_t) one that grants access to Read Write functionality in DynamoDB and Another with grants Read Write functionality for s3 bucket and add arn of the bucket as resource for s3 policy and add dynamodb tables arn as resource in dynamodb policy.
    4. Create New Role (named terraform) and attach 2 policies (Dynamo_w_r_t and S3_w_r_t) created in the previous step.
