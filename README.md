@@ -108,7 +108,7 @@
 | public_instance_id  | Public ec2 instance id    |
 | private_instance_id | Private ec2 instance id   |
 
-## Configurations:
+## main.tf Configurations:
 
 ### Local Variables:
 
