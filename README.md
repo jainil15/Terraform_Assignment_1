@@ -146,22 +146,22 @@ Steps to set up backend:
 **Terraform steps:**
 1. **`terraform init` :** The `terraform init` command initializes a working directory containing Terraform configuration files. This is the first command that should be run after writing a new Terraform configuration or cloning an existing one from version control.
 
-    ![images/terraform_init_result.png](terraform_init_result.png)
+    ![./images/terraform_init_result.png](terraform_init_result.png)
 
 2. **`terraform plan`:** The `terraform plan` command creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure. By default, when Terraform creates a plan it:
   - Reads the current state of any already-existing remote objects to make sure that the Terraform state is up-to-date. 
   - Compares the current configuration to the prior state and noting any differences.
   - Proposes a set of change actions that should, if applied, make the remote objects match the configuration.
 
-    ![images/terraform_plan_result_1.png](terraform_plan_result_1.png)
-    ![images/terraform_plan_result_2.png](terraform_plan_result_2.png)
-    ![images/terraform_plan_result_3.png](terraform_plan_result_3.png)
-    ![images/terraform_plan_result_4.png](terraform_plan_result_4.png)
-    ![images/terraform_plan_result_5.png](terraform_plan_result_5.png)
+    ![./images/terraform_plan_result_1.png](terraform_plan_result_1.png)
+    ![./images/terraform_plan_result_2.png](terraform_plan_result_2.png)
+    ![./images/terraform_plan_result_3.png](terraform_plan_result_3.png)
+    ![./images/terraform_plan_result_4.png](terraform_plan_result_4.png)
+    ![./images/terraform_plan_result_5.png](terraform_plan_result_5.png)
 
 3. **`terraform apply`:** The `terraform apply` command executes the actions proposed in a Terraform plan.
 
-    ![images/terraform_apply_result_1.png](terraform_apply_result_1.png)
-    ![images/terraform_apply_result_2.png](terraform_apply_result_2.png)
-    ![images/terraform_apply_aws_vpc.png](terraform_apply_aws_vpc.png)
-    ![images/terraform_apply_aws_ec2.png](terraform_apply_aws_ec2.png)
+    ![./images/terraform_apply_result_1.png](terraform_apply_result_1.png)
+    ![./images/terraform_apply_result_2.png](terraform_apply_result_2.png)
+    ![./images/terraform_apply_aws_vpc.png](terraform_apply_aws_vpc.png)
+    ![./images/terraform_apply_aws_ec2.png](terraform_apply_aws_ec2.png)
