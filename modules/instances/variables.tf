@@ -13,11 +13,6 @@ variable "instance_type" {
   description = "Instance type of instance"
 }
 
-variable "ssh_secure_ip" {
-  type        = list(string)
-  description = "Pass IP address that are allowed to connect to the ec2 instance using ssh protocol"
-}
-
 variable "private_subnet_ids" {
   type = list(string)
 }
@@ -27,6 +22,62 @@ variable "public_subnet_ids" {
 }
 
 variable "vpc_id" {
-  type = string
+  type        = string
   description = "VPC ID"
 }
+
+variable "public_sg_ingress_with_cidr_blocks" {
+  type = list(object({
+    from_port        = number
+    to_port          = number
+    protocol         = string
+    cidr_blocks      = list(string)
+    ipv6_cidr_blocks = optional(list(string))
+  }))
+  default = [  ]
+  description = "Write the full ingress with cidr blocks, to, from, protocol for ingress rules"
+}
+
+variable "private_sg_ingress_with_cidr_blocks" {
+  type = list(object({
+    from_port        = number
+    to_port          = number
+    protocol         = string
+    cidr_blocks      = list(string)
+    ipv6_cidr_blocks = optional(list(string))
+  }))
+  default = [  ]
+  description = "Write the full ingress with cidr blocks, to, from, protocol for ingress rules"
+}
+
+variable "public_sg_egress_with_cidr_blocks" {
+  type = list(object({
+    from_port        = number
+    to_port          = number
+    protocol         = string
+    cidr_blocks      = list(string)
+    ipv6_cidr_blocks = optional(list(string))
+  }))
+  description = "Write the full ingress with cidr blocks, to, from, protocol for egress rules"
+  default = [ {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  } ]
+}
+
+variable "private_sg_egress_with_cidr_blocks" {
+  type = list(object({
+    from_port        = number
+    to_port          = number
+    protocol         = string
+    cidr_blocks      = list(string)
+    ipv6_cidr_blocks = optional(list(string))
+  }))
+  default = [ ]
+  description = "Write the full ingress with cidr blocks, to, from, protocol for egress rules"
+  
+}
+

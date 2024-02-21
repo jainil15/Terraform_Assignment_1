@@ -5,6 +5,8 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  # Creating s3 backend for storing tfstate file
   backend "s3" {
     bucket         = "jainil-terraform-assignment-2-backend"
     region         = "ap-south-1"
@@ -16,8 +18,9 @@ terraform {
   }
 }
 
+# Local variables
 locals {
-  env = "ass-1-test"
+  env = "ass-1-test" // Name of the environment
 }
 
 # For assigning region
@@ -25,6 +28,7 @@ provider "aws" {
   region = "ap-south-1"
 }
 
+# Importing VPC module for createing VPC
 module "vpc" {
   source                     = "../modules/vpc"
   env                        = local.env
@@ -36,15 +40,37 @@ module "vpc" {
   public_subnet_tags         = {}
 }
 
+# Importing instances for creating ec2 instances
 module "instances" {
-  source        = "../modules/instances"
-  env           = local.env
-  ami_id        = "ami-06b72b3b2a773be2b"
-  instance_type = "t2.micro"
-
-  ssh_secure_ip      = ["110.20.12.122/32"]
+  source             = "../modules/instances"
+  env                = local.env
+  ami_id             = "ami-06b72b3b2a773be2b"
+  instance_type      = "t2.micro"
   private_subnet_ids = module.vpc.private_subnet_ids
   public_subnet_ids  = module.vpc.public_subnet_ids
   vpc_id             = module.vpc.vpc_id
-}
 
+  public_sg_ingress_with_cidr_blocks = [
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["120.42.44.12/32"]
+    },
+    {
+      from_port        = 80
+      to_port          = 80
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+    },
+    {
+      from_port        = 443
+      to_port          = 443
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+    }
+  ]
+  
+}
