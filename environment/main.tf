@@ -8,11 +8,14 @@ terraform {
 
   # Creating s3 backend for storing tfstate file
   backend "s3" {
-    bucket         = "jainil-terraform-assignment-2-backend"
-    region         = "ap-south-1"
-    encrypt        = true
-    profile        = "terra-user"
-    role_arn       = "arn:aws:iam::171358186705:role/terraform"
+    bucket  = "jainil-terraform-assignment-2-backend"
+    region  = "ap-south-1"
+    encrypt = true
+    profile = "terra-user"
+    assume_role = {
+      role_arn = "arn:aws:iam::171358186705:role/terraform"
+    }
+
     dynamodb_table = "jainil-terraform-lock-table"
     key            = "assignment-1/test/terraform.tfstate"
   }
