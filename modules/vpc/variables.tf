@@ -7,11 +7,12 @@ variable "env" {
 variable "vpc_cidr_block" {
   type        = string
   description = "VPC's cidr block"
+  default     = "10.0.0.0/16"
 }
 
 variable "azs" {
   type        = list(string)
-  description = "List of Availibility zones"
+  description = "List of Availability zones"
 }
 
 variable "private_subnet_cidr_blocks" {
@@ -30,9 +31,11 @@ variable "public_subnet_cidr_blocks" {
 variable "public_subnet_tags" {
   type        = map(any)
   description = "Public subnet tags"
+  default     = {}
 }
 
 variable "private_subnet_tags" {
   type        = map(any)
   description = "Private subnet tags"
+  default     = {}
 }
