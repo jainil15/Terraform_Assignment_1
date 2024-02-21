@@ -7,7 +7,6 @@ resource "aws_instance" "public" {
   subnet_id                   = var.public_subnet_ids[count.index]
   vpc_security_group_ids      = [aws_security_group.public.id]
   associate_public_ip_address = true
-  # depends_on                  = [aws_s3_bucket.this]
   tags = {
     Name = "${var.env}-public-${count.index}"
   }
@@ -22,7 +21,7 @@ systemctl restart httpd
   EOF
 }
 
-# Creating private aws ec2 instance for what purpose?? Talking to RDS??
+# Creating private aws ec2 instance
 resource "aws_instance" "private" {
   count                       = length(var.private_subnet_ids)
   ami                         = var.ami_id
@@ -31,7 +30,6 @@ resource "aws_instance" "private" {
   subnet_id                   = var.private_subnet_ids[count.index]
   vpc_security_group_ids      = [aws_security_group.private.id]
   associate_public_ip_address = false
-  # depends_on                  = [aws_s3_bucket.this]
   tags = {
     Name = "${var.env}-private-${count.index}"
   }

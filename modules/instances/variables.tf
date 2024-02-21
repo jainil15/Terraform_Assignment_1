@@ -41,8 +41,6 @@ variable "public_sg_ingress_with_cidr_blocks" {
   description = "Full ingress blocks with cidr blocks, to_port, from_port, protocol, ipv6_cidr_blocks(optional)"
 }
 
-
-
 variable "public_sg_egress_with_cidr_blocks" {
   type = list(object({
     from_port        = number
