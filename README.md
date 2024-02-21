@@ -159,9 +159,9 @@ Steps to set up backend:
 ![./images/./images/terraform_plan_result_4.png](./images/terraform_plan_result_4.png)
 ![./images/./images/terraform_plan_result_5.png](./images/terraform_plan_result_5.png)
 
-1. **`terraform apply`:** The `terraform apply` command executes the actions proposed in a Terraform plan.
+3. **`terraform apply`:** The `terraform apply` command executes the actions proposed in a Terraform plan.
 
-![./images/terraform_apply_result_1.png](terraform_apply_result_1.png)
-![./images/terraform_apply_result_2.png](terraform_apply_result_2.png)
-![./images/terraform_apply_aws_vpc.png](terraform_apply_aws_vpc.png)
-![./images/terraform_apply_aws_ec2.png](terraform_apply_aws_ec2.png)
+![./images/terraform_apply_result_1.png](./images/terraform_apply_result_1.png)
+![./images/terraform_apply_result_2.png](./images/terraform_apply_result_2.png)
+![./images/terraform_apply_aws_vpc.png](./images/terraform_apply_aws_vpc.png)
+![./images/terraform_apply_aws_ec2.png](./images/terraform_apply_aws_ec2.png)
