@@ -1,4 +1,3 @@
-
 # Creating security group for http and ssh access and all outbound access
 resource "aws_security_group" "public" {
   name        = "${var.env}-public-sg"
@@ -12,4 +11,3 @@ resource "aws_security_group" "private" {
   description = "private security group"
   vpc_id      = var.vpc_id
 }
-

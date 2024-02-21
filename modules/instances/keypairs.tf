@@ -1,4 +1,3 @@
-
 # Creating key pair for ssh access
 resource "aws_key_pair" "mykeypair" {
   key_name   = "${var.env}-mykeypair"
