@@ -18,11 +18,12 @@
 **Steps to set up backend:**
    1. Create create s3 bucket (jainil-terraform-assignment-2-backend) and enable versioning.
    2. Create DynamoDB Table (jainil-terraform-lock-table) with partition key named LockID and type String.
-   3. Create 2 Policies (Dynamo_w_r_t and S3_w_r_t) one that grants access to Read Write functionality in DynamoDB and Another with grants Read Write functionality for s3 bucket and add arn of the bucket as resource for s3 policy and add dynamodb tables arn as resource in dynamodb policy.
-   4. Create New Role (named terraform) and attach 2 policies (Dynamo_w_r_t and S3_w_r_t) created in the previous step.
-   5. Now create a new Policy (Allow-Terraform) and provide allow it to assume role of terraform.
-   6. Now create a new User-group (named terraform-access) and attach policy (Allow-Terraform) created in the previous step.
-   7. Now create a new user (named terra-user) and add it to user group (terraform-access) created in previous step.
+   3. Create Policy (S3_w_r_t) give access to `s3:ListBucket`, `s3:GetObject` and `s3:PutObject` and set resource as bucket's arn. 
+   4. Create Policy (DynamoDB_w_r_t) give access to `dynamodb:DescribeTable`, `dynamodb:GetItem` and `dynamodb:PutItem` and `dynamodb:DeleteItem` and set resource as dynamoDB table's arn. 
+   5. Create New Role (named terraform) and attach 2 policies (Dynamo_w_r_t and S3_w_r_t) created in the previous step.
+   6. Now create a new Policy (Allow-Terraform) and provide allow it to assume role of terraform.
+   7. Now create a new User-group (named terraform-access) and attach policy (Allow-Terraform) created in the previous step.
+   8. Now create a new user (named terra-user) and add it to user group (terraform-access) created in previous step.
 
 
 ## Backend config in main.tf:
