@@ -5,7 +5,7 @@
 1. Create IAM user (terraform-create-user) with access to s3, ec2 and vpc full access.
 2. Generate access key for that IAM user (terraform-create-user)
 3. Configure aws cli with the access key and secret access key of the user (terraform-create-user)
-![iam_user_terraform_create_user.png](iam_user_terraform_create_user.png)
+![iam_user_terraform_create_user.png](./images/iam_user_terraform_create_user.png)
 
 ## Requirements
 | Name      | Version |
@@ -22,14 +22,14 @@
 ## Backend:
 
 **Steps to set up backend:**
-   1. Create s3 bucket (jainil-terraform-assignment-2-backend) and enable versioning![s3_bucket_show_versioning.png](s3_bucket_show_versioning.png)
-   2. Create DynamoDB Table (jainil-terraform-lock-table) with partition key named LockID and type String.![dynamo_db_show_pk.png](dynamo_db_show_pk.png)
-   3. Create Policy (S3_w_r_t) give access to `s3:ListBucket`, `s3:GetObject` and `s3:PutObject` and set resource as bucket's arn.![S3_w_r_t_show_permissions.png](S3_w_r_t_show_permissions.png)![s3_w_r_t_json.png](s3_w_r_t_json.png)
-   4. Create Policy (Dynamo_w_r_t) give access to `dynamodb:DescribeTable`, `dynamodb:GetItem` and `dynamodb:PutItem` and `dynamodb:DeleteItem` and set resource as dynamoDB table's arn.![Dynamo_w_r_t_show_permissions.png](Dynamo_w_r_t_show_permissions.png)![Dynamo_w_r_t_json.png](Dynamo_w_r_t_json.png)
+   1. Create s3 bucket (jainil-terraform-assignment-2-backend) and enable versioning![s3_bucket_show_versioning.png](./images/s3_bucket_show_versioning.png)
+   2. Create DynamoDB Table (jainil-terraform-lock-table) with partition key named LockID and type String.![dynamo_db_show_pk.png](./images/dynamo_db_show_pk.png)
+   3. Create Policy (S3_w_r_t) give access to `s3:ListBucket`, `s3:GetObject` and `s3:PutObject` and set resource as bucket's arn.![S3_w_r_t_show_permissions.png](./images/S3_w_r_t_show_permissions.png)![s3_w_r_t_json.png](./images/s3_w_r_t_json.png)
+   4. Create Policy (Dynamo_w_r_t) give access to `dynamodb:DescribeTable`, `dynamodb:GetItem` and `dynamodb:PutItem` and `dynamodb:DeleteItem` and set resource as dynamoDB table's arn.![Dynamo_w_r_t_show_permissions.png](./images/Dynamo_w_r_t_show_permissions.png)![Dynamo_w_r_t_json.png](./images/Dynamo_w_r_t_json.png)
    5. Create New Role (named terraform) and attach 2 policies (Dynamo_w_r_t and S3_w_r_t) created in the previous step.![terraform_role_show_policies.png](terraform_role_show_policies.png)
    6. Now create a new Policy (Allow-Terraform) and provide allow it to assume role of terraform.![Allow_terraform_json.png](Allow_terraform_json.png)
    7. Now create a new User-group (named terraform-access) and attach policy (Allow-Terraform) created in the previous step.![terraform-access-permissions.png](terrafom-access-permissions.png)
-   8. Now create a new user (named terra-user) and add it to user group (terraform-access) created in previous step.![terra-user_show_group.png](terra-user_show_group.png)
+   8. Now create a new user (named terra-user) and add it to user group (terraform-access) created in previous step.![terra-user_show_group.png](./images/terra-user_show_group.png)
 
 
 ## Backend config in main.tf:
