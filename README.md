@@ -3,14 +3,8 @@
 
 ## Objective: In this assignment, you will create a basic Terraform configuration to provision an EC2 instance on AWS.
 
-### Steps to achieve the objective:
-1. I created a new IAM user with policies that I have described below.
-2. Then I created I created backend for the terraform (s3 and dynamoDB) 
-3. Created Role and made a user that can assume that role.
-4. Now I created Modules
-5. Then I created main.tf file and configured it.
-6. Then I ran terraform commands.
-
+#### Introduction
+In this task I am create VPC and then creating multiple subnets, creating s3 bucket and lauching ec2 instace in private and public subnets.
 
 ## Prerequisites:
 ### IAM USER:
