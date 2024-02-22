@@ -1,7 +1,13 @@
 # Assignment 1
 
-## Requirements:
+## Prerequisites:
+### IAM USER:
+1. Create IAM user (terraform-create-user) with access to s3, ec2 and vpc full access.
+2. Generate access key for that IAM user (terraform-create-user)
+3. Configure aws cli with the access key and secret access key of the user (terraform-create-user)
+![iam_user_terraform_create_user.png](iam_user_terraform_create_user.png)
 
+## Requirements
 | Name      | Version |
 |-----------|---------|
 | terraform | = 1.7.3 |
@@ -16,14 +22,14 @@
 ## Backend:
 
 **Steps to set up backend:**
-   1. Create create s3 bucket (jainil-terraform-assignment-2-backend) and enable versioning.
-   2. Create DynamoDB Table (jainil-terraform-lock-table) with partition key named LockID and type String.
-   3. Create Policy (S3_w_r_t) give access to `s3:ListBucket`, `s3:GetObject` and `s3:PutObject` and set resource as bucket's arn. 
-   4. Create Policy (DynamoDB_w_r_t) give access to `dynamodb:DescribeTable`, `dynamodb:GetItem` and `dynamodb:PutItem` and `dynamodb:DeleteItem` and set resource as dynamoDB table's arn. 
-   5. Create New Role (named terraform) and attach 2 policies (Dynamo_w_r_t and S3_w_r_t) created in the previous step.
-   6. Now create a new Policy (Allow-Terraform) and provide allow it to assume role of terraform.
-   7. Now create a new User-group (named terraform-access) and attach policy (Allow-Terraform) created in the previous step.
-   8. Now create a new user (named terra-user) and add it to user group (terraform-access) created in previous step.
+   1. Create s3 bucket (jainil-terraform-assignment-2-backend) and enable versioning![s3_bucket_show_versioning.png](s3_bucket_show_versioning.png)
+   2. Create DynamoDB Table (jainil-terraform-lock-table) with partition key named LockID and type String.![dynamo_db_show_pk.png](dynamo_db_show_pk.png)
+   3. Create Policy (S3_w_r_t) give access to `s3:ListBucket`, `s3:GetObject` and `s3:PutObject` and set resource as bucket's arn.![S3_w_r_t_show_permissions.png](S3_w_r_t_show_permissions.png)![s3_w_r_t_json.png](s3_w_r_t_json.png)
+   4. Create Policy (Dynamo_w_r_t) give access to `dynamodb:DescribeTable`, `dynamodb:GetItem` and `dynamodb:PutItem` and `dynamodb:DeleteItem` and set resource as dynamoDB table's arn.![Dynamo_w_r_t_show_permissions.png](Dynamo_w_r_t_show_permissions.png)![Dynamo_w_r_t_json.png](Dynamo_w_r_t_json.png)
+   5. Create New Role (named terraform) and attach 2 policies (Dynamo_w_r_t and S3_w_r_t) created in the previous step.![terraform_role_show_policies.png](terraform_role_show_policies.png)
+   6. Now create a new Policy (Allow-Terraform) and provide allow it to assume role of terraform.![Allow_terraform_json.png](Allow_terraform_json.png)
+   7. Now create a new User-group (named terraform-access) and attach policy (Allow-Terraform) created in the previous step.![terraform-access-permissions.png](terrafom-access-permissions.png)
+   8. Now create a new user (named terra-user) and add it to user group (terraform-access) created in previous step.![terra-user_show_group.png](terra-user_show_group.png)
 
 
 ## Backend config in main.tf:
@@ -146,22 +152,22 @@
 ## **Terraform steps:**
 1. **`terraform init` :** The `terraform init` command initializes a working directory containing Terraform configuration files. This is the first command that should be run after writing a new Terraform configuration or cloning an existing one from version control.
 
-    ![terraform_init_result.png](./images/terraform_init_result.png)
+   ![terraform_init_result.png](./images/terraform_init_result.png)
 
 2. **`terraform plan`:** The `terraform plan` command creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure. By default, when Terraform creates a plan it:
-  - Reads the current state of any already-existing remote objects to make sure that the Terraform state is up-to-date. 
-  - Compares the current configuration to the prior state and noting any differences.
-  - Proposes a set of change actions that should, if applied, make the remote objects match the configuration.
+- Reads the current state of any already-existing remote objects to make sure that the Terraform state is up-to-date.
+- Compares the current configuration to the prior state and noting any differences.
+- Proposes a set of change actions that should, if applied, make the remote objects match the configuration.
 
-    ![terraform_plan_result_1.png](./images/terraform_plan_result_1.png)
-    ![terraform_plan_result_2.png](./images/terraform_plan_result_2.png)
-    ![terraform_plan_result_3.png](./images/terraform_plan_result_3.png)
-    ![terraform_plan_result_4.png](./images/terraform_plan_result_4.png)
-    ![terraform_plan_result_5.png](./images/terraform_plan_result_5.png)
+  ![terraform_plan_result_1.png](./images/terraform_plan_result_1.png)
+  ![terraform_plan_result_2.png](./images/terraform_plan_result_2.png)
+  ![terraform_plan_result_3.png](./images/terraform_plan_result_3.png)
+  ![terraform_plan_result_4.png](./images/terraform_plan_result_4.png)
+  ![terraform_plan_result_5.png](./images/terraform_plan_result_5.png)
 
 3. **`terraform apply`:** The `terraform apply` command executes the actions proposed in a Terraform plan.
 
-    ![terraform_apply_result_1.png](./images/terraform_apply_result_1.png)
-    ![terraform_apply_result_2.png](./images/terraform_apply_result_2.png)
-    ![terraform_apply_aws_vpc.png](./images/terraform_apply_aws_vpc.png)
-    ![terraform_apply_aws_ec2.png](./images/terraform_apply_aws_ec2.png)
+   ![terraform_apply_result_1.png](./images/terraform_apply_result_1.png)
+   ![terraform_apply_result_2.png](./images/terraform_apply_result_2.png)
+   ![terraform_apply_aws_vpc.png](./images/terraform_apply_aws_vpc.png)
+   ![terraform_apply_aws_ec2.png](./images/terraform_apply_aws_ec2.png)
