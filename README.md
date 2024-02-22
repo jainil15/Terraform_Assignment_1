@@ -171,3 +171,6 @@
    ![terraform_apply_result_2.png](./images/terraform_apply_result_2.png)
    ![terraform_apply_aws_vpc.png](./images/terraform_apply_aws_vpc.png)
    ![terraform_apply_aws_ec2.png](./images/terraform_apply_aws_ec2.png)
+
+   **backend:**:
+   ![backedn_s3_bucket](./images/backend_s3_bucket_ass1.png)
